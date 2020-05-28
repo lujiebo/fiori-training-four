@@ -1,0 +1,109 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "com.shunyu.lujb.fiori-training-four",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{FEE_APP_TITLE}}",
+		"description": "{{FEE_APP_DESCRIPTION}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"DrivingSafety": {
+				"uri": "/xsodata/MasterDataManagement.xsodata",
+				"type": "OData",
+				"settings": {
+					"annotations": []
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}, 
+		"fullWidth": true,
+		"supportedThemes": ["sap_hcb", "sap_belize", "sap_belize_plus"]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "com.shunyu.lujb.fiori-training-four.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.f":{},
+				"sap.ui.layout": {}
+			}
+		},
+		"config": {
+			"fullWidth": true,
+			"sapFiori2Adaptation": true
+		},
+		"contentDensities": {
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.shunyu.lujb.fiori-training-four.i18n.i18n"
+				}
+			},
+			"DrivingSafety": {
+				"dataSource": "DrivingSafety",
+				"settings": {
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Inline",
+					"refreshAfterChange": false
+				}
+			}
+		},
+		"resources": {
+			"css": []
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "com.shunyu.lujb.fiori-training-four.view",
+				"controlId": "rootControl",
+				"controlAggregation": "pages",
+				"bypassed": {
+					"target": [
+						"NotFound"
+					]
+				}
+			},
+			"routes": [
+				{
+					"name": "Home",
+					"pattern": "",
+					"target": "fee-list"
+				}
+			],
+			"targets": {
+				"fee-list":{
+					"viewId": "fee-list",
+					"viewName": "FeeList"
+				}
+			}
+		}
+	}
+}

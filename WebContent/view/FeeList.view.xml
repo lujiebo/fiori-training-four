@@ -1,0 +1,160 @@
+<mvc:View 
+	controllerName="com.shunyu.lujb.fiori-training-four.controller.FeeList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:layout="sap.ui.layout"
+    xmlns:vm="sap.ui.comp.variants"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns="sap.m"
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <Page navButtonPress="onNavBack" showNavButton="false" title="{i18n>PAGE_SERVICE_FEE_TITLE}">
+        <content>
+            <layout:VerticalLayout class="sapUiCompFilterBar" width="100%">
+                <!-- vm:VariantManagement standardItemText="Standard" class="sapUiResponsiveMargin grcFilterBar sapUiCompFilterBar"></vm:VariantManagement -->
+                <fb:FilterBar reset="onReset" clear="onClear" search="onSearch" useToolbar="false" showRestoreButton="true" showClearButton="true" showGoOnFB="true">
+                    <fb:filterItems>
+                        <fb:FilterItem name="PLATE_NUMBER" label="{i18n>FEE_FILTER_VEHICLE_PLATE_NUMBER}">
+                            <fb:control>
+                                <MultiComboBox selectedKeys="{searchModel>/plateNumberKeys}" items="{
+                                   		path: 'DrivingSafety>/Vehicle',
+										sorter: { path: 'PLATE_NUMBER' }
+                               			}">
+                                    <core:Item key="{DrivingSafety>PLATE_NUMBER}" text="{DrivingSafety>PLATE_NUMBER}" />
+                                </MultiComboBox>
+                            </fb:control>
+                        </fb:FilterItem>
+                        <fb:FilterItem name="FEE_START_DATE_RANGE" label="{i18n>FEE_FILTER_FEE_START_DATE_RANGE}">
+                            <fb:control>
+                                <DateRangeSelection 
+										change="onChangeDateRange"
+										value="{
+											parts: [{path: 'searchModel>/feeStartDateFrom'}, {path: 'searchModel>/feeStartDateTo'}], 
+											type: 'sap.ui.model.type.DateInterval',
+											formatOptions: { UTC: true,  pattern: 'yyyy-MM-dd', strictParsing: true }
+										}" displayFormat="yyyy-MM-dd" />
+                            </fb:control>
+                        </fb:FilterItem>
+                        <fb:FilterItem name="FEE_END_DATE_RANGE" label="{i18n>FEE_FILTER_FEE_END_DATE_RANGE}" visibleInFilterBar="true">
+                            <fb:control>
+                                <DateRangeSelection 
+										change="onChangeDateRange" 
+										value="{
+											parts: [{path: 'searchModel>/feeEndDateFrom'}, {path: 'searchModel>/feeEndDateTo'}], 
+											type: 'sap.ui.model.type.DateInterval',
+											formatOptions: { UTC: true,  pattern: 'yyyy-MM-dd', strictParsing: true }
+										}" displayFormat="yyyy-MM-dd" />
+                            </fb:control>
+                        </fb:FilterItem>
+                        <fb:FilterItem name="CHANGED_ON_RANGE" label="{i18n>FEE_FILTER_CHANGE_ON_RANGE}" visibleInFilterBar="true">
+                            <fb:control>
+                                <DateRangeSelection 
+										change="onChangeDateRange" 
+										value="{
+											parts: [{path: 'searchModel>/changedOnFrom'}, {path: 'searchModel>/changedOnTo'}], 
+											type: 'sap.ui.model.type.DateInterval',
+											formatOptions: { UTC: true,  pattern: 'yyyy-MM-dd', strictParsing: true }
+										}" displayFormat="yyyy-MM-dd" />
+                            </fb:control>
+                        </fb:FilterItem>
+                        <fb:FilterItem name="FEE_START" label="{i18n>FEE_START}" visibleInFilterBar="true">
+                            <fb:control>
+                                <Input id="fee_start" 
+									type="Number"
+									placeholder="{i18n>PLACEHOLDER_ENTER_NUMBER}"
+									value="{path : 'searchModel>/feeStart',type : 'sap.ui.model.type.Integer'}" />
+                            </fb:control>
+                        </fb:FilterItem>
+                        <fb:FilterItem name="FEE_END" label="{i18n>FEE_END}" visibleInFilterBar="true">
+                            <fb:control>
+                                <Input id="fee_end" 
+									type="Number"
+									placeholder="{i18n>PLACEHOLDER_ENTER_NUMBER}"
+									value="{path : 'searchModel>/feeEnd',type : 'sap.ui.model.type.Integer'}"/>
+                            </fb:control>
+                        </fb:FilterItem>
+                    </fb:filterItems>
+                </fb:FilterBar>
+            </layout:VerticalLayout>
+            <Table
+					id="feeTable" 
+					width="auto"
+					items="{ path:'DrivingSafety>/Fee', sorter: { path: 'UID', descending: true } }"
+					busy="{path:'detailView>/vehicle/feeTableBusy'}"
+					growing="true"
+					enableBusyIndicator="true">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="{i18n>ENTITY_VEHICLE_FEE}" level="H2" />
+                        <ToolbarSpacer />
+                        <Button id="addUserButton"
+							    icon="sap-icon://add"
+							    press="onCreate">
+                            <layoutData>
+                                <OverflowToolbarLayoutData priority="NeverOverflow"/>
+                            </layoutData>
+                        </Button>
+                        <Button icon="sap-icon://sort" press="onFeeSortButtonPressed">
+                            <layoutData>
+                                <OverflowToolbarLayoutData priority="NeverOverflow" />
+                            </layoutData>
+                        </Button>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column width="6em">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_PLATE_NUMBER}" />
+                    </Column>
+                    <Column width="6em">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_START_DATE}" />
+                    </Column>
+                    <Column width="6em">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_END_DATE}" />
+                    </Column>
+                    <Column width="12em" hAlign="Center">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_FEE}" />
+                    </Column>
+                    <Column width="10em" minScreenWidth="Desktop" demandPopin="true">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_UPDATED_ON}" />
+                    </Column>
+                    <Column width="8em" minScreenWidth="Desktop" demandPopin="true">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_UPDATED_BY}" />
+                    </Column>
+                    <Column width="10em" minScreenWidth="Desktop" demandPopin="true">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_CREATED_ON}" />
+                    </Column>
+                    <Column width="8em" minScreenWidth="Desktop" demandPopin="true">
+                        <Text text="{i18n>ENTITY_VEHICLE_FEE_COLUMN_CREATED_BY}" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem data:uuid="{DrivingSafety>UID}" detailPress="onFeeEditPressed">
+                        <cells>
+                            <Link text="{path:'DrivingSafety>PLATE_NUMBER',type:'sap.ui.model.type.String'}"/>
+                            <ObjectAttribute
+									text="{path:'DrivingSafety>FEE_START_DATE',type:'sap.ui.model.type.Date', formatOptions: {UTC:true, pattern: 'yyyy-MM-dd', strictParsing: true}}"
+							/>
+                            <ObjectAttribute
+									text="{path:'DrivingSafety>FEE_END_DATE',type:'sap.ui.model.type.Date', formatOptions: {UTC:true, pattern: 'yyyy-MM-dd', strictParsing: true}}"
+							/>
+                            <ObjectAttribute
+									text="{ parts: [{path: 'DrivingSafety>FEE'}, {path: 'DrivingSafety>CURRENCY_CODE'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: true } }"
+							/>
+                            <ObjectAttribute
+									text="{path:'DrivingSafety>CHANGED_ON', type:'sap.ui.model.type.DateTime', formatOptions: {UTC:true, pattern: 'yyyy-MM-dd HH:mm:ss', strictParsing: true}}"
+							/>
+                            <ObjectAttribute
+									text="{path:'DrivingSafety>CHANGED_BY'}"
+							/>
+                            <ObjectAttribute
+									text="{path:'DrivingSafety>CREATED_ON', type:'sap.ui.model.type.DateTime', formatOptions: {UTC:true, pattern: 'yyyy-MM-dd HH:mm:ss', strictParsing: true}}"
+							/>
+                            <ObjectAttribute
+									text="{path:'DrivingSafety>CREATED_BY'}"
+							/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

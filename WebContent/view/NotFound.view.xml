@@ -1,0 +1,10 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.shunyu.lujb.fiori-training-four.controller.NotFound"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<MessagePage
+		title="{i18n>NOT_FOUND_TITLE}"
+		text="{i18n>NOT_FOUND_TEXT}">
+		<customDescription>
+			<Link text="{i18n>NOT_FOUND_LINK_TEXT}" press="onNavBack"/>
+		</customDescription>
+	</MessagePage>
+</mvc:View>

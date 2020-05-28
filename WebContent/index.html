@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-control" content="no-cache">
+	<meta http-equiv="Cache" content="no-cache">
+	<title>fee list poc</title>
+	<script src="/resources/sap-ui-core.js" data-sap-ui-theme="sap_belize" data-sap-ui-libs='sap.m'
+		data-sap-ui-bindingSyntax='complex' data-sap-ui-preload="async" data-sap-ui-compatVersion="edge"
+		data-sap-ui-resourceroots='{"com.shunyu.lujb.fiori-training-four": "./"}'>
+		</script>
+
+
+	<script>
+		sap.ui.getCore().attachInit(function () {
+			new sap.ui.core.ComponentContainer({
+				height: "100%",
+				name: "com.shunyu.lujb.fiori-training-four",
+				settings: {
+					id: "fee"
+				}
+			}).placeAt("content");
+		});
+	</script>
+
+</head>
+
+<body id="content" style="margin: 0;overflow: hidden;" class="sapUiBody">
+</body>
+
+</html>
